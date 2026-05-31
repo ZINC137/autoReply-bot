@@ -1,0 +1,10 @@
+[project]
+name = "autoReply-bot"
+version = "0.1.0"
+description = "SMS webhook auto-reply bot with rule-based responses."
+requires-python = ">=3.10"
+dependencies = [
+  "Flask>=3.0.0",
+  "python-dotenv>=1.0.0"
+]
+

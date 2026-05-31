@@ -1,0 +1,20 @@
+{
+  "rules": [
+    {
+      "name": "greeting",
+      "pattern": "\\b(hi|hello|hey|yo)\\b",
+      "reply": "Hey! I am away right now, but I saw your text and will reply soon."
+    },
+    {
+      "name": "urgent",
+      "pattern": "\\b(urgent|emergency|important|asap)\\b",
+      "reply": "I noticed this may be urgent. If this needs immediate attention, please call me."
+    },
+    {
+      "name": "meeting",
+      "pattern": "\\b(meeting|schedule|available|free)\\b",
+      "reply": "Thanks for reaching out. I am not available right now, but I will check my schedule and get back to you."
+    }
+  ]
+}
+
