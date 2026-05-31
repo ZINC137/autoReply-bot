@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>autoReply-bot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="panel">
+        <div class="title-row">
+          <div>
+            <p class="eyebrow">autoReply-bot</p>
+            <h1>Message Tester</h1>
+          </div>
+          <span class="status" id="status">Ready</span>
+        </div>
+
+        <form id="reply-form" class="composer">
+          <label for="message">Incoming text</label>
+          <textarea id="message" name="message" rows="5" placeholder="Type a message like: hey, are you free?"></textarea>
+          <button type="submit">Send Test</button>
+        </form>
+
+        <section class="reply-box" aria-live="polite">
+          <p class="reply-label">Auto-reply</p>
+          <p id="reply">Your reply will appear here.</p>
+        </section>
+      </section>
+    </main>
+
+    <script>
+      const form = document.querySelector("#reply-form");
+      const message = document.querySelector("#message");
+      const reply = document.querySelector("#reply");
+      const status = document.querySelector("#status");
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        status.textContent = "Sending";
+        reply.textContent = "Thinking...";
+
+        try {
+          const response = await fetch("/api/reply", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: message.value })
+          });
+
+          if (!response.ok) {
+            throw new Error("Request failed");
+          }
+
+          const data = await response.json();
+          reply.textContent = data.reply;
+          status.textContent = "Replied";
+        } catch (error) {
+          reply.textContent = "Something went wrong. Check the terminal and try again.";
+          status.textContent = "Error";
+        }
+      });
+    </script>
+  </body>
+</html>

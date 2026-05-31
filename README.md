@@ -7,6 +7,8 @@ The project is designed for services such as Twilio, which can call the `/sms` e
 ## Features
 
 - SMS webhook at `POST /sms`
+- Browser test page at `/`
+- JSON test endpoint at `POST /api/reply`
 - TwiML XML response compatible with Twilio Messaging webhooks
 - JSON-based reply rules
 - Opt-out handling for `STOP`, `UNSUBSCRIBE`, `CANCEL`, `QUIT`, and `END`
@@ -25,19 +27,35 @@ cp .env.example .env
 ## Run Locally
 
 ```bash
-flask --app auto_reply_bot.app run --port 5000
+python -m flask --app auto_reply_bot.app run --port 5000
 ```
+
+Open the test page:
+
+```text
+http://127.0.0.1:5000/
+```
+
+Type a test message and click **Send Test** to see the auto-reply.
 
 Health check:
 
 ```bash
-curl http://127.0.0.1:5000/
+curl http://127.0.0.1:5000/health
 ```
 
 Simulate an incoming SMS:
 
 ```bash
 curl -X POST http://127.0.0.1:5000/sms -d "From=+15551234567" -d "Body=hey, are you free?"
+```
+
+Test the browser endpoint from terminal:
+
+```bash
+curl -X POST http://127.0.0.1:5000/api/reply \
+  -H "Content-Type: application/json" \
+  -d '{"message":"this is urgent"}'
 ```
 
 ## Test Reply Logic Without Running The Server
